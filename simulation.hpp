@@ -1,17 +1,32 @@
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 using namespace std;
 
 class Voxel {
 	bool cloud, humid, transit; // Cloud, humid and transition variables for each voxel.
+	float pExt, pHum, pAct;
 
 	public:
-		Voxel() { cloud = humid = transit = false; }
+		Voxel() { 
+			// cout<<"Here"<<endl;
+			cloud = false;
+			double rnd1 = ((double) rand() / (RAND_MAX));
+			double rnd2 = ((double) rand() / (RAND_MAX));
+			// cout<<rnd1<<" "<<rnd2<<endl;
+			humid = (rnd1 > 0.5) ? true:false;
+			transit = (rnd2 > 0.5) ? true:false;
+			// cout<<humid<<" "<<transit<<endl;
+			pExt = pHum = pAct = 0.5; 
+		}
 
-		Voxel(bool cloud, bool humid, bool transit) {
+		Voxel(bool cloud, bool humid, bool transit, float pExt, float pHum, float pAct) {
 			this->cloud = cloud;
 			this->humid = humid;
 			this->transit = transit;
+			this->pExt = pExt;
+			this->pHum = pHum;
+			this->pAct = pAct;
 		}
 
 		~Voxel() {}
@@ -28,15 +43,28 @@ class Voxel {
 
 		void setTransit(bool value) { transit = value; }
 
+		float getPExt() { return pExt; }
+
+		void setPExt(float value) { pExt = value; }
+
+		float getPHum() { return pHum; }
+
+		void setPHum(float value) { pHum = value; }
+
+		float getPAct() { return pAct; }
+
+		void setPAct(float value) { pAct = value; }
+
 		Voxel getNext(bool fact);
 };
 
 class Grid {
 	int sizeX, sizeY, sizeZ;
 	vector< vector< vector<Voxel> > > voxels;
+	float velocity;
 
 	public:
-		Grid(int sx, int sy, int sz) {
+		Grid(int sx, int sy, int sz, int vel) {
 			sizeX = sx;
 			sizeY = sy;
 			sizeZ = sz;
@@ -45,7 +73,17 @@ class Grid {
 				voxels[i].resize(sy);
 				for(int j = 0; j < sy; j++) {
 					voxels[i][j].resize(sz);
+					// for(int k = 0; k < sz; k++) {
+					// 	voxels[i][j][k] = Voxel();
+					// }
 				}
+			}
+			velocity = vel;
+			for(int i = 0; i < 20; i++) {
+				for(int j = 0; j < 20; j++) {
+					cout<<voxels[i][j][0].getHumid()<<" ";
+				}
+				cout<<endl;
 			}
 		}
 
@@ -53,6 +91,7 @@ class Grid {
 			this->sizeX = grid.sizeX;
 			this->sizeY = grid.sizeY;
 			this->sizeZ = grid.sizeZ;
+			this->velocity = grid.velocity;
 			this->voxels = grid.voxels;
 		}
 
