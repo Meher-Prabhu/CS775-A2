@@ -138,6 +138,12 @@ class Simulation {
 
 		void setGrid(int time, Grid grid) { grids[time] = grid; }
 
+		int getXDimension() { if(grids.size() > 0 )return grid[0].getXDimension(); else return 0; }
+
+		int getYDimension() { if(grids.size() > 0 )return grid[0].getYDimension(); else return 0; }
+
+		int getZDimension() { if(grids.size() > 0 )return grid[0].getZDimension(); else return 0; }
+
 		int getTimeSteps() { return timeSteps; }
 
 		void setTimeSteps(int time) { timeSteps = time; }
