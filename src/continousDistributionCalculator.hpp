@@ -51,27 +51,21 @@ public:
 };
 
 class ContinousDistributionCalculator {
-	int vecSizeX,vecSizeY,vecSizeZ,vecSizeT;
 	int smoothSizeX,smoothSizeY,smoothSizeZ,smoothSizeT;
 	vector< vector< vector< vector<double> > > > smoothingWeight;
 public:
 	ContinousDistributionCalculator(){
-
-		smoothSizeX = 2;
-		smoothSizeY = 2;
-		smoothSizeZ = 2;
+		smoothSizeX = 1;
+		smoothSizeY = 1;
+		smoothSizeZ = 1;
 		smoothSizeT = 1;
-		vecSizeX = 3;
-		vecSizeY = 3;
-		vecSizeZ = 3;
-		vecSizeT = 2;
-		smoothingWeight.resize(smoothSizeX+1);
-		for(int i = 0; i < smoothSizeX+1; i++) {
-			smoothingWeight[i].resize(smoothSizeY+1);
-			for(int j = 0; j < smoothSizeY+1; j++) {
-				smoothingWeight[i][j].resize(smoothSizeZ+1);
-				for(int k = 0; k < smoothSizeZ+1; k++){
-					smoothingWeight[i][j][k].resize(smoothSizeT+1);
+		smoothingWeight.resize(2*smoothSizeX+1);
+		for(int i = 0; i < 2*smoothSizeX+1; i++) {
+			smoothingWeight[i].resize(2*smoothSizeY+1);
+			for(int j = 0; j < 2*smoothSizeY+1; j++) {
+				smoothingWeight[i][j].resize(2*smoothSizeZ+1);
+				for(int k = 0; k < 2*smoothSizeZ+1; k++){
+					smoothingWeight[i][j][k].resize(2*smoothSizeT+1,0.0);
 				}
 			}
 		}
@@ -81,17 +75,13 @@ public:
 		smoothSizeY = y;
 		smoothSizeZ = z;
 		smoothSizeT = t;
-		vecSizeX = x+1;
-		vecSizeY = y+1;
-		vecSizeZ = z+1;
-		vecSizeT = t+1;
-		smoothingWeight.resize(smoothSizeX+1);
-		for(int i = 0; i < smoothSizeX+1; i++) {
-			smoothingWeight[i].resize(smoothSizeY+1);
-			for(int j = 0; j < smoothSizeY+1; j++) {
-				smoothingWeight[i][j].resize(smoothSizeZ+1);
-				for(int k = 0; k < smoothSizeZ+1; k++){
-					smoothingWeight[i][j][k].resize(smoothSizeT+1);
+		smoothingWeight.resize(2*smoothSizeX+1);
+		for(int i = 0; i < 2*smoothSizeX+1; i++) {
+			smoothingWeight[i].resize(2*smoothSizeY+1);
+			for(int j = 0; j < 2*smoothSizeY+1; j++) {
+				smoothingWeight[i][j].resize(2*smoothSizeZ+1);
+				for(int k = 0; k < 2*smoothSizeZ+1; k++){
+					smoothingWeight[i][j][k].resize(2*smoothSizeT+1,0.0);
 				}
 			}
 		}
@@ -101,10 +91,6 @@ public:
 		smoothSizeY = y;
 		smoothSizeZ = z;
 		smoothSizeT = t;
-		vecSizeX = x+1;
-		vecSizeY = y+1;
-		vecSizeZ = z+1;
-		vecSizeT = t+1;
 		smoothingWeight = weights;
 	}
 
@@ -121,12 +107,12 @@ public:
 	void setSmoothSizeT(int size){smoothSizeT = size;}
 
 	double getSmoothingWeight(int x,int y,int z,int t){
-		if(x < smoothSizeX && y < smoothSizeY && z < smoothSizeZ && t < smoothSizeT && x >= 0 && y >= 0 && z >= 0 && t >= 0) return smoothingWeight[x][y][z][t];
+		if(x < 2*smoothSizeX+1 && y < 2*smoothSizeY+1 && z < 2*smoothSizeZ+1 && t < 2*smoothSizeT+1 && x >= 0 && y >= 0 && z >= 0 && t >= 0) return smoothingWeight[x][y][z][t];
 		else return smoothingWeight[0][0][0][0];
 	}
 
 	void setSmoothingWeight(int x,int y,int z,int t,double value){
-		if(x < smoothSizeX && y < smoothSizeY && z < smoothSizeZ && t < smoothSizeT && x >= 0 && y >= 0 && z >= 0 && t >= 0) smoothingWeight[x][y][z][t] = value;	
+		if(x < 2*smoothSizeX+1 && y < 2*smoothSizeY+1 && z < 2*smoothSizeZ+1 && t < 2*smoothSizeT+1 && x >= 0 && y >= 0 && z >= 0 && t >= 0) smoothingWeight[x][y][z][t] = value;	
 	}
 
 	ContinousGrid discreetToContinous(Simulation sim);

@@ -64,45 +64,96 @@ main(int argc, char * argv[])
     Simulation sim(3, grid);
     sim.simulate();
 
-    Grid finGrid = sim.getGrid(0);
-    for(int i = 0; i < 3; i++) {
-        cout<<"x:"<<i<<endl;
-        for(int j = 0; j < 3; j++) {
-            for (int k = 0; k < 3; ++k){
-                cout<<finGrid.getVoxel(i, j, k).getCloud()<<" ";
-            }
-            cout<<endl;
-        }
-        cout<<endl;
-    }
+    // Grid finGrid = sim.getGrid(3);
+    // for(int i = 0; i < 3; i++) {
+    //     cout<<"x:"<<i<<endl;
+    //     for(int j = 0; j < 3; j++) {
+    //         for (int k = 0; k < 3; ++k){
+    //             cout<<finGrid.getVoxel(i, j, k).getCloud()<<" ";
+    //         }
+    //         cout<<endl;
+    //     }
+    //     cout<<endl;
+    // }
 
     int x=1,y=1,z=1,t=1;
     ContinousDistributionCalculator cdc(x,y,z,t);
-    cdc.setSmoothingWeight(0,0,0,0,1);
-    cdc.setSmoothingWeight(1,0,0,0,0.5);
-    cdc.setSmoothingWeight(0,1,0,0,0.5);
-    cdc.setSmoothingWeight(0,0,1,0,0.5);
-    cdc.setSmoothingWeight(1,1,0,0,0.25);
-    cdc.setSmoothingWeight(0,1,1,0,0.25);
-    cdc.setSmoothingWeight(1,0,1,0,0.25);
-    cdc.setSmoothingWeight(1,1,1,0,0.125);
-    cdc.setSmoothingWeight(0,0,0,1,0.5);
-    cdc.setSmoothingWeight(1,0,0,1,0.25);
-    cdc.setSmoothingWeight(0,1,0,1,0.25);
-    cdc.setSmoothingWeight(0,0,1,1,0.25);
-    cdc.setSmoothingWeight(1,1,0,1,0.125);
-    cdc.setSmoothingWeight(0,1,1,1,0.125);
-    cdc.setSmoothingWeight(1,0,1,1,0.125);
-    cdc.setSmoothingWeight(1,1,1,1,0.0625);
+    // Cube Center
+    cdc.setSmoothingWeight(1,1,1,0,1);
+    // Adjacent Face Center
+    cdc.setSmoothingWeight(1,1,0,0,0.9);
+    cdc.setSmoothingWeight(0,1,1,0,0.9);
+    cdc.setSmoothingWeight(1,0,1,0,0.9);
+    cdc.setSmoothingWeight(1,1,2,0,0.9);
+    cdc.setSmoothingWeight(2,1,1,0,0.9);
+    cdc.setSmoothingWeight(1,2,1,0,0.9);
+    // Edge Center
+    cdc.setSmoothingWeight(1,0,0,0,0.8);
+    cdc.setSmoothingWeight(2,1,0,0,0.8);
+    cdc.setSmoothingWeight(1,2,0,0,0.8);
+    cdc.setSmoothingWeight(0,1,0,0,0.8);
+
+    cdc.setSmoothingWeight(0,1,0,0,0.8);
+    cdc.setSmoothingWeight(2,0,1,0,0.8);
+    cdc.setSmoothingWeight(2,2,1,0,0.8);
+    cdc.setSmoothingWeight(0,2,1,0,0.8);
+
+    cdc.setSmoothingWeight(1,0,2,0,0.8);
+    cdc.setSmoothingWeight(2,1,2,0,0.8);
+    cdc.setSmoothingWeight(1,2,2,0,0.8);
+    cdc.setSmoothingWeight(0,1,2,0,0.8);
+    //Corners
+    cdc.setSmoothingWeight(0,0,0,0,0.7);
+    cdc.setSmoothingWeight(2,0,0,0,0.7);
+    cdc.setSmoothingWeight(0,0,2,0,0.7);
+    cdc.setSmoothingWeight(0,2,0,0,0.7);
+    cdc.setSmoothingWeight(2,2,0,0,0.7);
+    cdc.setSmoothingWeight(0,2,2,0,0.7);
+    cdc.setSmoothingWeight(2,0,2,0,0.7);
+    cdc.setSmoothingWeight(2,2,2,0,0.7);
+
+// Cube Center
+    cdc.setSmoothingWeight(1,1,1,1,1);
+    // Adjacent Face Center
+    cdc.setSmoothingWeight(1,1,0,1,0.9);
+    cdc.setSmoothingWeight(0,1,1,1,0.9);
+    cdc.setSmoothingWeight(1,0,1,1,0.9);
+    cdc.setSmoothingWeight(1,1,2,1,0.9);
+    cdc.setSmoothingWeight(2,1,1,1,0.9);
+    cdc.setSmoothingWeight(1,2,1,1,0.9);
+    // Edge Center
+    cdc.setSmoothingWeight(1,0,0,1,0.8);
+    cdc.setSmoothingWeight(2,1,0,1,0.8);
+    cdc.setSmoothingWeight(1,2,0,1,0.8);
+    cdc.setSmoothingWeight(0,1,0,1,0.8);
+
+    cdc.setSmoothingWeight(0,1,0,1,0.8);
+    cdc.setSmoothingWeight(2,0,1,1,0.8);
+    cdc.setSmoothingWeight(2,2,1,1,0.8);
+    cdc.setSmoothingWeight(0,2,1,1,0.8);
+
+    cdc.setSmoothingWeight(1,0,2,1,0.8);
+    cdc.setSmoothingWeight(2,1,2,1,0.8);
+    cdc.setSmoothingWeight(1,2,2,1,0.8);
+    cdc.setSmoothingWeight(0,1,2,1,0.8);
+    //Corners
+    cdc.setSmoothingWeight(0,0,0,1,0.7);
+    cdc.setSmoothingWeight(2,0,0,1,0.7);
+    cdc.setSmoothingWeight(0,0,2,1,0.7);
+    cdc.setSmoothingWeight(0,2,0,1,0.7);
+    cdc.setSmoothingWeight(2,2,0,1,0.7);
+    cdc.setSmoothingWeight(0,2,2,1,0.7);
+    cdc.setSmoothingWeight(2,0,2,1,0.7);
+    cdc.setSmoothingWeight(2,2,2,1,0.7);
     
     ContinousGrid continousGrid = cdc.discreetToContinous(sim);
 
-    for(int i = 0; i < 3; i++) {
-        for(int j = 0; j < 3; j++) {
-            cout<<continousGrid.getVoxelValue(i, j, 2,1)<<" ";
-        }
-        cout<<endl;
-    }
+    // for(int i = 0; i < 3; i++) {
+    //     for(int j = 0; j < 3; j++) {
+    //         cout<<continousGrid.getVoxelValue(i, j, 2, 0)<<" ";
+    //     }
+    //     cout<<endl;
+    // }
 
 
 

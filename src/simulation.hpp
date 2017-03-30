@@ -131,7 +131,6 @@ class Simulation {
 		Simulation(int time, Grid grid) { 
 			timeSteps = time;
 			grids.push_back(grid);
-			cout<<grids.size()<<endl; 
 		}
 
 		~Simulation() {}

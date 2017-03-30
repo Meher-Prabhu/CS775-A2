@@ -36,39 +36,21 @@ double ContinousGrid::getDensityAtPoint(double x,double y,double z,double t){
 
 ContinousGrid ContinousDistributionCalculator::discreetToContinous(Simulation sim){
 	ContinousGrid grid(sim.getXDimension(),sim.getYDimension(),sim.getZDimension(),sim.getTimeSteps());
-	cout<<"started"<<endl;
-	cout<<sim.getXDimension()<<endl;
-	cout<<sim.getYDimension()<<endl;
-	cout<<sim.getZDimension()<<endl;
-	cout<<sim.getTimeSteps()<<endl;
-
 	for(int i = 0;i < sim.getXDimension();i++){
 		for(int j = 0;j < sim.getYDimension();j++){
 			for(int k = 0;k < sim.getZDimension();k++){
 				for(int t = 0;t< sim.getTimeSteps();t++){
-					cout<<"Sim: "<<i<<","<<j<<","<<k<<","<<t<<endl;
 					double value = 0;
-					for(int ni = -smoothSizeX; ni < 2*smoothSizeX; ni++){
-						cout<<"a"<<endl;
+					for(int ni = -smoothSizeX; ni <= smoothSizeX; ni++){
 						if(ni + i >= 0 && ni + i <= sim.getXDimension()-1){
-							cout<<"b"<<endl;
-							for(int nj = -smoothSizeY; nj < 2*smoothSizeY; nj++){
-								cout<<"c"<<endl;
+							for(int nj = -smoothSizeY; nj <= smoothSizeY; nj++){
 								if(nj + j >= 0 && nj + j <= sim.getYDimension()-1){
-									cout<<"d"<<endl;
-									for(int nk = -smoothSizeZ; nk < 2*smoothSizeZ; nk++){
-										cout<<"e"<<endl;
+									for(int nk = -smoothSizeZ; nk <= smoothSizeZ; nk++){
 										if(nk + k >= 0 && nk + k <= sim.getZDimension()-1){
-											cout<<"f"<<endl;
-											for(int nt = -smoothSizeT; nt < 2*smoothSizeT; nt++){
-												cout<<"g"<<endl;
+											for(int nt = -smoothSizeT; nt <= smoothSizeT; nt++){
 												if(nt + t >= 0 && nt + t <= sim.getTimeSteps()-1){
-													cout<<"h"<<endl;
-													cout<<(nt+t)<<endl;
 													if((sim.getGrid(nt + t).getVoxel(ni + i,nj + j,nk + k)).getCloud()){
-														cout<<"i"<<endl;
-														cout<<smoothingWeight[ni][nj][nk][nt]<<endl;
-														value += smoothingWeight[ni][nj][nk][nt];
+														value += smoothingWeight[smoothSizeX + ni][smoothSizeY + nj][smoothSizeZ + nk][smoothSizeT + nt];
 													}
 												}
 											}
@@ -78,8 +60,8 @@ ContinousGrid ContinousDistributionCalculator::discreetToContinous(Simulation si
 							}
 						}
 					}
-					cout<<"value:"<<value<<endl;
-					grid.setVoxelValue(i,j,k,t,(value)/((2*smoothSizeX + 1)*(2*smoothSizeY + 1)*(2*smoothSizeZ + 1)*(2*smoothSizeT + 1)));
+					value = (value)/((2*smoothSizeX + 1)*(2*smoothSizeY + 1)*(2*smoothSizeZ + 1)*(2*smoothSizeT + 1));
+					grid.setVoxelValue(i,j,k,t,value);
 				}
 			}
 		}
