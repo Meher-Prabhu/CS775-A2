@@ -7,7 +7,7 @@ public:
 	MetaBall(double radius){
 		effectiveRadius = radius;
 	}
-	~MetaBall();
+	~MetaBall() {};
 	
 	double getEffectiveRadius(){ return effectiveRadius;}
 	void setEffectiveRadius(double radius){effectiveRadius = radius;}
@@ -19,4 +19,4 @@ public:
 		else
 			return 0.0;
 	}
-}
+};
